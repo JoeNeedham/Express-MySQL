@@ -35,6 +35,18 @@ app.get('/getAll', (request, response) => {
     .catch(err => console.log(err));
 });
 
+// update
+app.patch('/update', (request, response) => {
+    const { id, name } = request.body;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.updateNameById(id, name);
+    
+    result
+    .then(data => response.json({success : data}))
+    .catch(err => console.log(err));
+});
+
 // delete
 app.delete('/delete/:id', (request, response) =>{
     const { id } = request.params;
@@ -45,6 +57,18 @@ app.delete('/delete/:id', (request, response) =>{
     result
     .then(data => response.json({success: data}))
     .catch(err => console.log(err));
+})
+
+app.get('/search/:name', (request, response) => {
+    const { name } = request.params;
+    const db = dbService.getDbServiceInstance();
+
+    const result = db.searchByName(name);
+
+    result
+    .then(data => response.json({data: data}))
+    .catch(err => console.log(err));
+
 })
 
 
